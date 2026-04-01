@@ -3,63 +3,88 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>For My Love</title>
+  <title>Two Months With You</title>
 
   <style>
     :root {
-      --bg1: #fff6f0;
-      --bg2: #ffe4e1;
-      --paper: #fffaf5;
-      --ink: #5b3b3b;
-      --accent: #d97b93;
-      --accent-dark: #b85f79;
-      --envelope: #f3cfd8;
-      --envelope-dark: #e7b6c3;
-      --shadow: rgba(103, 63, 76, 0.18);
+      --bg1: #fdf6f2;
+      --bg2: #f8e7e2;
+      --bg3: #f6ece8;
 
-      --pink-box: #f8d7e3;
-      --gold-box: #f7e6b5;
-      --lav-box: #e7dcfa;
+      --ink: #5f4640;
+      --ink-soft: #8b6c65;
+
+      --paper: #fffaf3;
+      --paper-edge: #f4ebe0;
+      --paper-line: rgba(168, 124, 108, 0.14);
+
+      --envelope: #fffefe;
+      --envelope-shadow: rgba(120, 92, 92, 0.14);
+      --flap: #e7c5cf;
+      --flap-dark: #dab1be;
+      --seal: #d97b93;
+      --seal-dark: #bc617b;
+
+      --reason: #f3d6df;
+      --joke: #f2e2b1;
+      --ps: #ddd2ef;
+
+      --shadow-soft: rgba(96, 67, 67, 0.12);
+      --shadow-deep: rgba(96, 67, 67, 0.18);
     }
 
     * {
       box-sizing: border-box;
     }
 
+    html {
+      scroll-behavior: smooth;
+    }
+
     body {
       margin: 0;
       min-height: 100vh;
-      font-family: "Trebuchet MS", "Segoe UI", Arial, sans-serif;
+      font-family: "Avenir Next", "Segoe UI", "Trebuchet MS", Arial, sans-serif;
       color: var(--ink);
       background:
-        radial-gradient(circle at top left, rgba(255,255,255,0.8), transparent 35%),
-        radial-gradient(circle at bottom right, rgba(255,255,255,0.6), transparent 30%),
-        linear-gradient(135deg, var(--bg1), var(--bg2));
-      display: flex;
-      justify-content: center;
-      align-items: center;
+        radial-gradient(circle at top left, rgba(255,255,255,0.85), transparent 28%),
+        radial-gradient(circle at bottom right, rgba(255,255,255,0.6), transparent 24%),
+        linear-gradient(135deg, var(--bg1), var(--bg2) 55%, var(--bg3));
       overflow-x: hidden;
-      padding: 24px;
       position: relative;
     }
 
-    body::before,
-    body::after {
+    body::before {
       content: "";
       position: fixed;
       inset: 0;
       pointer-events: none;
+      background-image:
+        radial-gradient(circle at 15% 20%, rgba(255,255,255,0.32) 0 5px, transparent 6px),
+        radial-gradient(circle at 80% 26%, rgba(255,255,255,0.24) 0 4px, transparent 5px),
+        radial-gradient(circle at 25% 78%, rgba(255,255,255,0.18) 0 6px, transparent 7px),
+        radial-gradient(circle at 72% 80%, rgba(255,255,255,0.22) 0 5px, transparent 6px);
+      background-size: 190px 190px;
       z-index: 0;
+      opacity: 0.7;
     }
 
-    body::before {
-      background-image:
-        radial-gradient(circle at 15% 20%, rgba(255,255,255,0.45) 0 6px, transparent 7px),
-        radial-gradient(circle at 75% 25%, rgba(255,255,255,0.3) 0 5px, transparent 6px),
-        radial-gradient(circle at 30% 75%, rgba(255,255,255,0.25) 0 7px, transparent 8px),
-        radial-gradient(circle at 85% 80%, rgba(255,255,255,0.35) 0 5px, transparent 6px);
-      background-size: 180px 180px;
-      opacity: 0.7;
+    .page {
+      position: relative;
+      z-index: 1;
+      width: 100%;
+      min-height: 100vh;
+      padding: 32px 16px 72px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      transition: padding-top 0.6s ease, padding-bottom 0.6s ease;
+    }
+
+    .page.open {
+      align-items: flex-start;
+      padding-top: 56px;
+      padding-bottom: 100px;
     }
 
     .scene {
@@ -67,56 +92,57 @@
       max-width: 760px;
       display: flex;
       justify-content: center;
-      align-items: center;
       position: relative;
-      z-index: 1;
     }
 
     .envelope-wrapper {
       position: relative;
-      width: min(92vw, 420px);
-      height: 290px;
-      cursor: pointer;
-      transition: transform 0.35s ease;
+      width: min(92vw, 430px);
+      height: 300px;
+      transition: height 0.65s ease;
     }
 
-    .envelope-wrapper:hover {
-      transform: translateY(-4px);
-    }
-
-    .envelope-wrapper.opened {
-      cursor: default;
+    .page.open .envelope-wrapper {
+      height: 820px;
     }
 
     .hint {
       position: absolute;
-      top: -42px;
+      top: -34px;
+      left: 0;
       width: 100%;
       text-align: center;
       font-size: 14px;
-      letter-spacing: 0.04em;
-      color: rgba(91, 59, 59, 0.75);
-      transition: opacity 0.3s ease;
+      letter-spacing: 0.06em;
+      color: rgba(95, 70, 64, 0.72);
+      transition: opacity 0.35s ease, transform 0.35s ease;
     }
 
-    .envelope-wrapper.opened .hint {
+    .page.open .hint {
       opacity: 0;
+      transform: translateY(-6px);
     }
 
     .envelope {
       position: absolute;
+      left: 50%;
       bottom: 0;
+      transform: translateX(-50%);
       width: 100%;
-      height: 220px;
-      filter: drop-shadow(0 18px 30px var(--shadow));
+      height: 230px;
+      filter: drop-shadow(0 20px 34px var(--envelope-shadow));
+      z-index: 2;
     }
 
     .envelope-back {
       position: absolute;
       inset: 0;
-      background: linear-gradient(180deg, #f7d9e2, var(--envelope));
-      border-radius: 0 0 18px 18px;
+      background: linear-gradient(180deg, #ffffff, #fbf7f7);
+      border-radius: 0 0 22px 22px;
       overflow: hidden;
+      box-shadow:
+        inset 0 0 0 1px rgba(230, 210, 210, 0.65),
+        0 10px 28px rgba(120, 92, 92, 0.08);
     }
 
     .envelope-front {
@@ -132,9 +158,9 @@
       bottom: 0;
       width: 50%;
       height: 100%;
-      background: var(--envelope-dark);
+      background: linear-gradient(180deg, #fffefe, #f5f0f0);
       clip-path: polygon(0 0, 100% 100%, 0 100%);
-      border-bottom-left-radius: 18px;
+      border-bottom-left-radius: 22px;
     }
 
     .envelope-front::after {
@@ -144,22 +170,23 @@
       bottom: 0;
       width: 50%;
       height: 100%;
-      background: #edc0cc;
+      background: linear-gradient(180deg, #fcfbfb, #f3eded);
       clip-path: polygon(100% 0, 100% 100%, 0 100%);
-      border-bottom-right-radius: 18px;
+      border-bottom-right-radius: 22px;
     }
 
     .envelope-bottom {
       position: absolute;
-      bottom: 0;
       left: 0;
+      bottom: 0;
       width: 100%;
       height: 62%;
-      background: #f0c7d2;
-      clip-path: polygon(0 100%, 50% 35%, 100% 100%);
+      background: linear-gradient(180deg, #fffefe, #f5efef);
+      clip-path: polygon(0 100%, 50% 34%, 100% 100%);
       z-index: 5;
-      border-bottom-left-radius: 18px;
-      border-bottom-right-radius: 18px;
+      border-bottom-left-radius: 22px;
+      border-bottom-right-radius: 22px;
+      box-shadow: inset 0 -1px 0 rgba(228, 214, 214, 0.65);
     }
 
     .flap {
@@ -168,13 +195,19 @@
       left: 0;
       width: 100%;
       height: 58%;
-      background: linear-gradient(180deg, #f7dce4, #efc3cf);
+      background: linear-gradient(180deg, var(--flap), var(--flap-dark));
       clip-path: polygon(0 0, 100% 0, 50% 100%);
       transform-origin: top center;
-      transition: transform 0.9s cubic-bezier(.2,.8,.2,1);
-      z-index: 6;
-      border-top-left-radius: 14px;
-      border-top-right-radius: 14px;
+      transition: transform 0.95s cubic-bezier(.2,.82,.2,1);
+      z-index: 7;
+      border-top-left-radius: 16px;
+      border-top-right-radius: 16px;
+      box-shadow: inset 0 1px 0 rgba(255,255,255,0.35);
+    }
+
+    .page.open .flap {
+      transform: rotateX(180deg);
+      z-index: 1;
     }
 
     .seal {
@@ -182,107 +215,155 @@
       top: 72px;
       left: 50%;
       transform: translateX(-50%);
-      width: 52px;
-      height: 52px;
+      width: 54px;
+      height: 54px;
       border-radius: 50%;
-      background: radial-gradient(circle at 30% 30%, #ffb6c7, #d9708c);
-      z-index: 7;
+      background: radial-gradient(circle at 30% 30%, #f6b2c6, var(--seal));
+      box-shadow: 0 8px 20px rgba(163, 83, 108, 0.22);
       display: grid;
       place-items: center;
-      box-shadow: 0 6px 18px rgba(160, 74, 99, 0.25);
-      transition: opacity 0.35s ease;
       color: white;
-      font-size: 20px;
+      font-size: 22px;
+      z-index: 8;
+      transition: opacity 0.35s ease, transform 0.35s ease;
     }
 
-    .opened .flap {
-      transform: rotateX(180deg);
-      z-index: 1;
-    }
-
-    .opened .seal {
+    .page.open .seal {
       opacity: 0;
+      transform: translateX(-50%) scale(0.85);
     }
 
     .letter {
       position: absolute;
       left: 50%;
-      bottom: 20px;
-      transform: translateX(-50%) translateY(120px);
+      top: 72px;
+      transform: translateX(-50%) translateY(180px);
       width: 88%;
-      max-width: 370px;
-      min-height: 410px;
-      background: linear-gradient(180deg, #fffdfb, var(--paper));
-      border-radius: 18px;
+      max-width: 378px;
+      min-height: 490px;
+      background:
+        linear-gradient(180deg, rgba(255,255,255,0.65), transparent 40px),
+        linear-gradient(180deg, var(--paper), #fffaf4 60%, #fdf7ef);
+      border-radius: 20px;
       box-shadow:
-        0 18px 40px rgba(88, 51, 62, 0.18),
-        inset 0 0 0 1px rgba(204, 170, 170, 0.18);
-      padding: 28px 22px 22px;
-      z-index: 2;
+        0 24px 50px var(--shadow-deep),
+        0 8px 20px var(--shadow-soft),
+        inset 0 0 0 1px rgba(224, 205, 193, 0.55);
       opacity: 0;
+      z-index: 3;
       transition:
-        transform 1s cubic-bezier(.2,.8,.2,1),
-        opacity 0.7s ease;
+        transform 1s cubic-bezier(.2,.82,.2,1),
+        opacity 0.65s ease;
       overflow: hidden;
     }
 
-    .opened .letter {
-      transform: translateX(-50%) translateY(-120px);
+    .page.open .letter {
+      transform: translateX(-50%) translateY(0);
       opacity: 1;
-      z-index: 3;
     }
 
-    .paper-glow {
+    .paper-overlay {
       position: absolute;
       inset: 0;
-      background:
-        radial-gradient(circle at top, rgba(255,255,255,0.85), transparent 30%),
-        linear-gradient(180deg, rgba(255,255,255,0.25), transparent 45%);
       pointer-events: none;
+      background:
+        linear-gradient(90deg,
+          rgba(205, 164, 145, 0.10) 0,
+          transparent 18px,
+          transparent calc(100% - 18px),
+          rgba(205, 164, 145, 0.10) 100%
+        ),
+        radial-gradient(circle at top center, rgba(255,255,255,0.7), transparent 24%),
+        linear-gradient(180deg, transparent, rgba(196, 163, 145, 0.04));
     }
 
-    .letter-content {
+    .paper-ornament-left,
+    .paper-ornament-right {
+      position: absolute;
+      top: 24px;
+      bottom: 24px;
+      width: 18px;
+      pointer-events: none;
+      opacity: 0.28;
+    }
+
+    .paper-ornament-left {
+      left: 10px;
+      background:
+        radial-gradient(circle at 50% 10px, var(--paper-line) 0 1.3px, transparent 1.8px),
+        radial-gradient(circle at 50% 36px, var(--paper-line) 0 1.3px, transparent 1.8px),
+        radial-gradient(circle at 50% 62px, var(--paper-line) 0 1.3px, transparent 1.8px),
+        linear-gradient(var(--paper-line), var(--paper-line));
+      background-size:
+        18px 26px,
+        18px 26px,
+        18px 26px,
+        1px calc(100% - 24px);
+      background-repeat: repeat-y, repeat-y, repeat-y, no-repeat;
+      background-position: center 0, center 8px, center 16px, center 12px;
+    }
+
+    .paper-ornament-right {
+      right: 10px;
+      background:
+        radial-gradient(circle at 50% 10px, var(--paper-line) 0 1.3px, transparent 1.8px),
+        radial-gradient(circle at 50% 36px, var(--paper-line) 0 1.3px, transparent 1.8px),
+        radial-gradient(circle at 50% 62px, var(--paper-line) 0 1.3px, transparent 1.8px),
+        linear-gradient(var(--paper-line), var(--paper-line));
+      background-size:
+        18px 26px,
+        18px 26px,
+        18px 26px,
+        1px calc(100% - 24px);
+      background-repeat: repeat-y, repeat-y, repeat-y, no-repeat;
+      background-position: center 0, center 8px, center 16px, center 12px;
+    }
+
+    .letter-inner {
       position: relative;
       z-index: 1;
+      padding: 30px 28px 22px;
       opacity: 0;
-      transition: opacity 0.6s ease;
+      transition: opacity 0.5s ease;
     }
 
-    .letter.show-text .letter-content {
+    .page.open .letter-inner {
       opacity: 1;
+      transition-delay: 0.52s;
     }
 
     .title {
-      font-family: Georgia, "Times New Roman", serif;
-      font-size: clamp(26px, 4vw, 34px);
-      margin: 0 0 16px;
-      color: var(--accent-dark);
+      margin: 0 0 10px;
       text-align: center;
+      font-family: Georgia, "Times New Roman", serif;
+      font-size: clamp(27px, 4vw, 34px);
+      line-height: 1.2;
+      color: #8f5b62;
       font-weight: 600;
       letter-spacing: 0.02em;
     }
 
     .subtitle {
       text-align: center;
-      font-size: 13px;
-      opacity: 0.72;
-      margin-bottom: 20px;
-      letter-spacing: 0.08em;
+      margin-bottom: 22px;
+      font-size: 12px;
+      letter-spacing: 0.12em;
       text-transform: uppercase;
+      color: rgba(95, 70, 64, 0.62);
     }
 
     .message {
       font-size: 17px;
-      line-height: 1.9;
-      min-height: 155px;
-      white-space: normal;
+      line-height: 1.95;
+      color: var(--ink);
+      min-height: 170px;
     }
 
     .word {
-      opacity: 0;
       display: inline-block;
+      opacity: 0;
       transform: translateY(8px);
-      animation: wordFade 0.45s forwards;
+      animation: wordFade 0.42s forwards;
       margin-right: 0.28em;
     }
 
@@ -294,34 +375,34 @@
     }
 
     .signature {
-      margin-top: 18px;
-      font-size: 15px;
+      margin-top: 20px;
       text-align: right;
-      color: rgba(91, 59, 59, 0.82);
+      font-size: 15px;
+      color: var(--ink-soft);
+      line-height: 1.5;
     }
 
     .boxes {
-      margin-top: 22px;
+      margin-top: 24px;
       display: grid;
-      grid-template-columns: 1fr;
       gap: 12px;
     }
 
     .box {
       border: none;
       border-radius: 16px;
-      padding: 14px 14px;
+      padding: 15px 16px;
       text-align: left;
       cursor: pointer;
-      font: inherit;
       color: var(--ink);
-      box-shadow: 0 10px 20px rgba(111, 76, 87, 0.08);
-      transition: transform 0.2s ease, box-shadow 0.2s ease;
+      font: inherit;
+      box-shadow: 0 10px 20px rgba(100, 72, 72, 0.07);
+      transition: transform 0.22s ease, box-shadow 0.22s ease;
     }
 
     .box:hover {
       transform: translateY(-2px);
-      box-shadow: 0 14px 26px rgba(111, 76, 87, 0.12);
+      box-shadow: 0 16px 28px rgba(100, 72, 72, 0.10);
     }
 
     .box-title {
@@ -332,44 +413,68 @@
 
     .box-hint {
       font-size: 12px;
-      opacity: 0.7;
+      color: rgba(95, 70, 64, 0.65);
     }
 
     .box-content {
       max-height: 0;
       overflow: hidden;
-      transition: max-height 0.35s ease, margin-top 0.35s ease, opacity 0.35s ease;
       opacity: 0;
+      margin-top: 0;
+      transition:
+        max-height 0.35s ease,
+        opacity 0.35s ease,
+        margin-top 0.35s ease;
       font-size: 14px;
-      line-height: 1.6;
+      line-height: 1.7;
     }
 
     .box.open .box-content {
-      max-height: 120px;
-      margin-top: 10px;
+      max-height: 160px;
       opacity: 1;
+      margin-top: 10px;
     }
 
-    .box.reason {
-      background: var(--pink-box);
+    .reason {
+      background: var(--reason);
     }
 
-    .box.joke {
-      background: var(--gold-box);
+    .joke {
+      background: var(--joke);
     }
 
-    .box.ps {
-      background: var(--lav-box);
+    .ps {
+      background: var(--ps);
+    }
+
+    .close-tab {
+      margin: 18px auto 0;
+      width: fit-content;
+      padding: 10px 16px;
+      border-radius: 999px;
+      border: 1px solid rgba(173, 138, 126, 0.18);
+      background: rgba(255, 248, 242, 0.95);
+      color: rgba(95, 70, 64, 0.8);
+      font-size: 12px;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      cursor: pointer;
+      box-shadow: 0 8px 18px rgba(96, 67, 67, 0.06);
+      transition: transform 0.2s ease, background 0.2s ease;
+    }
+
+    .close-tab:hover {
+      transform: translateY(-1px);
+      background: rgba(255, 251, 247, 1);
     }
 
     .floating-heart {
       position: fixed;
-      bottom: -20px;
-      font-size: 18px;
-      opacity: 0.75;
+      bottom: -24px;
       pointer-events: none;
-      animation: floatUp linear forwards;
       z-index: 0;
+      opacity: 0.75;
+      animation: floatUp linear forwards;
     }
 
     @keyframes floatUp {
@@ -378,103 +483,132 @@
         opacity: 0.75;
       }
       to {
-        transform: translateY(-110vh) scale(1.35);
+        transform: translateY(-115vh) scale(1.25);
         opacity: 0;
       }
     }
 
     @media (max-width: 520px) {
+      .page {
+        padding-top: 24px;
+        padding-bottom: 56px;
+      }
+
+      .page.open {
+        padding-top: 32px;
+        padding-bottom: 72px;
+      }
+
       .envelope-wrapper {
-        height: 300px;
+        height: 290px;
+      }
+
+      .page.open .envelope-wrapper {
+        height: 860px;
       }
 
       .letter {
-        min-height: 440px;
-        padding: 24px 18px 18px;
+        width: 90%;
+        min-height: 520px;
+      }
+
+      .letter-inner {
+        padding: 28px 22px 20px;
       }
 
       .message {
         font-size: 16px;
-        line-height: 1.8;
+        line-height: 1.9;
       }
     }
   </style>
 </head>
 <body>
-  <div class="scene">
-    <div class="envelope-wrapper" id="envelopeWrapper">
-      <div class="hint">tap the envelope 💌</div>
+  <div class="page" id="page">
+    <div class="scene">
+      <div class="envelope-wrapper" id="envelopeWrapper">
+        <div class="hint">tap the envelope 💌</div>
 
-      <div class="letter" id="letter">
-        <div class="paper-glow"></div>
+        <div class="letter" id="letter">
+          <div class="paper-overlay"></div>
+          <div class="paper-ornament-left"></div>
+          <div class="paper-ornament-right"></div>
 
-        <div class="letter-content">
-          <h1 class="title">Two Months With You</h1>
-          <div class="subtitle">a little note for my favorite person</div>
+          <div class="letter-inner">
+            <h1 class="title">Two Months With You</h1>
+            <div class="subtitle">a little note for my favorite person</div>
 
-          <div class="message" id="message"></div>
+            <div class="message" id="message"></div>
 
-          <div class="signature">
-            Love,<br />
-            your genius boyfriend :)
-          </div>
+            <div class="signature">
+              Love,<br />
+              your genius boyfriend :)
+            </div>
 
-          <div class="boxes">
-            <button class="box reason" type="button">
-              <div class="box-title">A reason I like you</div>
-              <div class="box-hint">tap to open</div>
-              <div class="box-content">
-                I like how sweet and lovable you are. You make things feel softer,
-                warmer, and more special just by being you.
-              </div>
-            </button>
+            <div class="boxes">
+              <button class="box reason" type="button">
+                <div class="box-title">A reason I like you</div>
+                <div class="box-hint">tap to open</div>
+                <div class="box-content">
+                  I like how sweet and lovable you are. You make things feel softer,
+                  warmer, and more special just by being you.
+                </div>
+              </button>
 
-            <button class="box joke" type="button">
-              <div class="box-title">An inside joke</div>
-              <div class="box-hint">tap to open</div>
-              <div class="box-content">
-                You already know this is where our little chaotic funny moment goes.
-                Put the one that instantly makes her laugh when she reads it.
-              </div>
-            </button>
+              <button class="box joke" type="button">
+                <div class="box-title">An inside joke</div>
+                <div class="box-hint">tap to open</div>
+                <div class="box-content">
+                  Put your real inside joke here — the one that instantly makes
+                  her smile because only you two fully get it.
+                </div>
+              </button>
 
-            <button class="box ps" type="button">
-              <div class="box-title">P.S.</div>
-              <div class="box-hint">tap to open</div>
-              <div class="box-content">
-                Thank you for making these last two months feel beautiful. I’m really,
-                really happy it’s been you.
-              </div>
+              <button class="box ps" type="button">
+                <div class="box-title">P.S.</div>
+                <div class="box-hint">tap to open</div>
+                <div class="box-content">
+                  Thank you for making these last two months feel beautiful.
+                  I’m really happy it’s been you.
+                </div>
+              </button>
+            </div>
+
+            <button class="close-tab" id="closeTab" type="button">
+              tuck letter back in
             </button>
           </div>
         </div>
-      </div>
 
-      <div class="envelope">
-        <div class="envelope-back"></div>
-        <div class="flap"></div>
-        <div class="seal">♥</div>
-        <div class="envelope-front"></div>
-        <div class="envelope-bottom"></div>
+        <div class="envelope" id="envelope">
+          <div class="envelope-back"></div>
+          <div class="flap"></div>
+          <div class="seal">♥</div>
+          <div class="envelope-front"></div>
+          <div class="envelope-bottom"></div>
+        </div>
       </div>
     </div>
   </div>
 
   <script>
-    const envelopeWrapper = document.getElementById("envelopeWrapper");
-    const letter = document.getElementById("letter");
+    const page = document.getElementById("page");
+    const envelope = document.getElementById("envelope");
     const message = document.getElementById("message");
+    const closeTab = document.getElementById("closeTab");
     const boxes = document.querySelectorAll(".box");
 
     const fullMessage = `
       My love, these two months with you have felt so sweet and so special.
       You’ve brought so much warmth, laughter, and softness into my life,
-      and I really wanted to make you something that felt personal,
+      and I really wanted to make you something personal,
       because you deserve more than something random or ordinary.
       Thank you for being you, and for making my life better just by being in it.
     `;
 
-    let hasOpened = false;
+    let isOpen = false;
+    let hasTyped = false;
+    let heartInterval = null;
 
     function typeWords(text, element) {
       const words = text.trim().split(/\s+/);
@@ -489,39 +623,58 @@
       });
     }
 
-    function createFloatingHearts() {
-      const symbols = ["♥", "♡", "💕"];
+    function createFloatingHeart() {
       const heart = document.createElement("div");
+      const symbols = ["♥", "♡", "💕"];
       heart.className = "floating-heart";
       heart.textContent = symbols[Math.floor(Math.random() * symbols.length)];
       heart.style.left = Math.random() * 100 + "vw";
-      heart.style.animationDuration = 4 + Math.random() * 3 + "s";
       heart.style.fontSize = 14 + Math.random() * 14 + "px";
+      heart.style.animationDuration = 4 + Math.random() * 3 + "s";
       document.body.appendChild(heart);
 
-      setTimeout(() => {
-        heart.remove();
-      }, 7000);
+      setTimeout(() => heart.remove(), 7000);
     }
 
-    let heartInterval = null;
+    function startHearts() {
+      heartInterval = setInterval(createFloatingHeart, 550);
+      setTimeout(() => clearInterval(heartInterval), 6500);
+    }
 
-    envelopeWrapper.addEventListener("click", () => {
-      if (hasOpened) return;
-      hasOpened = true;
+    function openLetter() {
+      if (isOpen) return;
+      isOpen = true;
+      page.classList.add("open");
 
-      envelopeWrapper.classList.add("opened");
+      if (!hasTyped) {
+        setTimeout(() => {
+          typeWords(fullMessage, message);
+          hasTyped = true;
+        }, 720);
+      }
+
+      startHearts();
 
       setTimeout(() => {
-        letter.classList.add("show-text");
-        typeWords(fullMessage, message);
-      }, 950);
+        window.scrollTo({ top: 0, behavior: "smooth" });
+      }, 250);
+    }
 
-      heartInterval = setInterval(createFloatingHearts, 550);
+    function closeLetter() {
+      if (!isOpen) return;
+      isOpen = false;
+      page.classList.remove("open");
 
-      setTimeout(() => {
-        clearInterval(heartInterval);
-      }, 7000);
+      boxes.forEach((box) => box.classList.remove("open"));
+
+      window.scrollTo({ top: 0, behavior: "smooth" });
+    }
+
+    envelope.addEventListener("click", openLetter);
+
+    closeTab.addEventListener("click", (e) => {
+      e.stopPropagation();
+      closeLetter();
     });
 
     boxes.forEach((box) => {
